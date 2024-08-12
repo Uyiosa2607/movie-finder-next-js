@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
-export default function Login() {
+export default function Register() {
   const [loading, setLoading] = useState(false);
 
   //Function to handle users Registration
@@ -47,8 +47,17 @@ export default function Login() {
       <div className="w-[60vw] backdrop-blur-sm bg-white/30 mx-auto h-[80vh] rounded-lg">
         <form onSubmit={handleRegister} className="pt-[8rem] text-[#333]">
           <h3 className="text-center text-2xl font-medium mb-3">
-            Welcome Back
+            Create an Account
           </h3>
+          <div className="w-[400px] mb-2 mx-auto">
+            <Label htmlFor="name">Full Name</Label>
+            <Input
+              placeholder="Name and Surname"
+              type="text"
+              name="name"
+              id="name"
+            />
+          </div>
           <div className="w-[400px] mb-2 mx-auto">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -73,7 +82,7 @@ export default function Login() {
               type="submit"
               className="w-full bg-green-700 text-center"
             >
-              Login{" "}
+              Register{" "}
               {loading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : null}

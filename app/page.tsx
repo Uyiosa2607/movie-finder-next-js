@@ -1,12 +1,21 @@
-import Login from "@/components/system/Login";
-export default function Home() {
-  return (
-    <main>
-      {/* <div className="container mx-auto">
-        <h1 className="text-center">Landing page</h1>
+"use client";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-      </div> */}
-      <Login />
-    </main>
-  );
+import Login from "@/components/system/Login";
+import HomePage from "@/components/system/HomePage";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+export default function Home() {
+  const [auth, setAuth] = useState(false);
+
+  const router = useRouter();
+
+  return <>{auth ? <HomePage /> : <Login />}</>;
+
+  // return (
+  //   <>
+  //     <button onClick={() => setAuth(!auth)}>toggle</button>;
+  //   </>
+  // );
 }
