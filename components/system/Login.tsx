@@ -7,15 +7,8 @@ import { FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { useAtom } from "jotai";
-import { userAtom } from "@/lib/store";
-import { useRouter } from "next/navigation";
 
 export default function Login() {
-  const [user, setUser] = useAtom(userAtom);
-
-  const router = useRouter();
-
   const [loading, setLoading] = useState(false);
 
   //Function to handle users auth
@@ -30,13 +23,7 @@ export default function Login() {
     try {
       setLoading(true);
       const response = await signInWithEmailAndPassword(auth, email, password);
-      setUser({
-        auth: true,
-        id: response.user.uid,
-        email: response.user.email,
-      });
       setLoading(false);
-      console.log(response);
     } catch (error) {
       console.log(error);
       setLoading(false);
