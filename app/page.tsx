@@ -1,21 +1,13 @@
 "use client";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
 import Login from "@/components/system/Login";
 import HomePage from "@/components/system/HomePage";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { auth } from "@/lib/Firebase";
+import { useAtom } from "jotai";
+import { useEffect } from "react";
+import { userAtom } from "@/lib/Store";
 
 export default function Home() {
-  const [auth, setAuth] = useState(false);
+  const [user, setUser] = useAtom(userAtom);
 
-  const router = useRouter();
-
-  return <>{auth ? <HomePage /> : <Login />}</>;
-
-  // return (
-  //   <>
-  //     <button onClick={() => setAuth(!auth)}>toggle</button>;
-  //   </>
-  // );
+  return <>{user.auth ? <Login /> : <HomePage />}</>;
 }

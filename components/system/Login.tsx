@@ -1,41 +1,42 @@
 "use client";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { auth, db } from "@/lib/Firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { auth } from "@/lib/Firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { useAtom } from "jotai";
+import { userAtom } from "@/lib/Store";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const [user, setUser] = useAtom(userAtom);
+
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
 
-  //Function to handle users Registration
-  async function handleRegister(event: FormEvent<HTMLFormElement>) {
+  //Function to handle users auth
+  async function handleLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const formdata = new FormData(event.currentTarget);
 
-    const name: any = formdata.get("name");
     const email: any = formdata.get("email");
     const password: any = formdata.get("password");
 
     try {
       setLoading(true);
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const savedData = await setDoc(doc(db, "Users", response.user.uid), {
-        name,
-        email,
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      setUser({
+        auth: true,
         id: response.user.uid,
+        email: response.user.email,
       });
       setLoading(false);
-      console.log(response, savedData);
+      console.log(response);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -45,7 +46,7 @@ export default function Login() {
   return (
     <main className="bg-[url('/img/background.jpg')] bg-center w-screen h-screen pt-[4rem]">
       <div className="w-[60vw] backdrop-blur-sm bg-white/30 mx-auto h-[80vh] rounded-lg">
-        <form onSubmit={handleRegister} className="pt-[8rem] text-[#333]">
+        <form onSubmit={handleLogin} className="pt-[8rem] text-[#333]">
           <h3 className="text-center text-2xl font-medium mb-3">
             Welcome Back
           </h3>
@@ -81,6 +82,7 @@ export default function Login() {
           </div>
         </form>
       </div>
+      <button onClick={() => console.log(auth.currentUser)}>get stats</button>
     </main>
   );
 }

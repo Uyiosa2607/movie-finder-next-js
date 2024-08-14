@@ -8,16 +8,33 @@ import { FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import upload from "@/lib/imageUploader";
 
 export default function Register() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [avatar, setAvatar] = useState({
+    file: null,
+    url: "",
+  });
+
+  // Function to handle Profile picture selection
+  function handleProfilePicture(event: any) {
+    if (event.target.files[0]) {
+      setAvatar({
+        file: event.target.files[0],
+        url: URL.createObjectURL(event.target.files[0]),
+      });
+    }
+  }
 
   //Function to handle users Registration
   async function handleRegister(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const formdata = new FormData(event.currentTarget);
-
     const name: any = formdata.get("name");
     const email: any = formdata.get("email");
     const password: any = formdata.get("password");
@@ -29,18 +46,26 @@ export default function Register() {
         email,
         password
       );
-      const savedData = await setDoc(doc(db, "Users", response.user.uid), {
+
+      const profileImgUrl = await upload(avatar.file);
+
+      const savedData = await setDoc(doc(db, "users", response.user.uid), {
         name,
         email,
         id: response.user.uid,
+        img: profileImgUrl,
       });
+
       setLoading(false);
       console.log(response, savedData);
+      router.push("/");
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   }
+
+  console.log(avatar.url);
 
   return (
     <main className="bg-[url('/img/background.jpg')] bg-center w-screen h-screen pt-[4rem]">
@@ -49,6 +74,22 @@ export default function Register() {
           <h3 className="text-center text-2xl font-medium mb-3">
             Create an Account
           </h3>
+          <div className="w-[400px] flex gap-2 items-center mb-4 mx-auto">
+            <Avatar className="w-[40px] h-[40px]">
+              <AvatarImage src={avatar.url} />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <Label className="uppercase text-sm font-medium" htmlFor="avatar">
+              select profile picture
+            </Label>
+            <Input
+              style={{ display: "none" }}
+              type="file"
+              name="avatar"
+              id="avatar"
+              onChange={handleProfilePicture}
+            />
+          </div>
           <div className="w-[400px] mb-2 mx-auto">
             <Label htmlFor="name">Full Name</Label>
             <Input
