@@ -31,9 +31,7 @@ export default function Home() {
     return () => {
       onSub();
     };
-  }, [onAuthStateChanged]);
-
-  console.log(user);
+  }, []);
 
   if (loading === true)
     return (
