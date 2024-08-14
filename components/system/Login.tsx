@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useAtom } from "jotai";
-import { userAtom } from "@/lib/Store";
+import { userAtom } from "@/lib/store";
 import { useRouter } from "next/navigation";
 
 export default function Login() {

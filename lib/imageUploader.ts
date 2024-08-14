@@ -3,7 +3,7 @@ import { Storage } from "./Firebase";
 
 async function upload(file: any) {
   const date = new Date();
-  const storageRef = ref(Storage, `images/${date + file.name}`);
+  const storageRef = ref(Storage, `profile_pictures/${date + file.name}`);
   const uploadTask = uploadBytesResumable(storageRef, file);
   return new Promise((resolve, reject) => {
     uploadTask.on(

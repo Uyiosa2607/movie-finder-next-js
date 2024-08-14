@@ -1,7 +1,9 @@
 import { atom } from "jotai";
+import { doc, getDoc } from "firebase/firestore";
+import { useAtom } from "jotai";
+import { db } from "./Firebase";
 
 export const userAtom = atom({
-  auth: false,
   id: "",
-  email: "",
+  auth: false,
 });
