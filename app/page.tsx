@@ -1,52 +1,72 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+
 import Login from "@/components/system/Login";
 import HomePage from "@/components/system/HomePage";
+import Loading from "@/components/system/Loading";
 import { auth } from "@/lib/Firebase";
 import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
-import { userAtom } from "@/lib/store";
+import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/lib/Firebase";
+import { currentUser, isLoadingAtom } from "@/lib/userStore";
 
 export default function Home() {
-  const [user, setUser] = useAtom(userAtom);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useAtom(currentUser);
+  const [loading, setLoading] = useAtom(isLoadingAtom);
+
   useEffect(() => {
-    const onSub = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setUser({
-          id: user.uid,
-          auth: true,
-        });
-        setLoading(false);
+        try {
+          const docRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            setUser({
+              name: docSnap.data().name,
+              email: docSnap.data().email,
+              id: docSnap.data().id,
+              img: docSnap.data().img,
+              auth: true,
+            });
+          } else {
+            console.log("No such document!");
+            setUser({
+              name: "",
+              email: "",
+              id: "",
+              img: "",
+              auth: false,
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching user data: ", error);
+          setUser({
+            name: "",
+            email: "",
+            id: "",
+            img: "",
+            auth: false,
+          });
+        }
       } else {
         setUser({
+          name: "",
+          email: "",
           id: "",
+          img: "",
           auth: false,
         });
-        setLoading(false);
       }
+      setLoading(false);
     });
 
-    return () => {
-      onSub();
-    };
-  }, []);
+    return () => unsubscribe();
+  }, [setUser, setLoading]);
 
-  if (loading === true)
-    return (
-      <main>
-        <div className="container mx-auto flex items-center justify-center">
-          <div className="w-screen flex items-center justify-center h-screen">
-            <img
-              className="w-[100px] h-[100px]"
-              src="/img/loading.svg"
-              alt="loader"
-            />
-          </div>
-        </div>
-      </main>
-    );
+  if (loading) return <Loading />;
 
   return <>{user.auth ? <HomePage /> : <Login />}</>;
 }

@@ -1,17 +1,10 @@
-import { userAtom } from "@/lib/store";
+import { currentUser } from "@/lib/userStore";
 import { useAtom } from "jotai";
-import { signOut } from "firebase/auth";
-import { auth } from "@/lib/Firebase";
 import Header from "./Header";
+import New from "../movie-categories/New";
 
 export default function HomePage() {
-  const [user, setUser] = useAtom(userAtom);
-  console.log(auth.currentUser);
-
-  function handleLogout() {
-    signOut(auth);
-    console.log(auth.currentUser);
-  }
+  const [user, setUser] = useAtom(currentUser);
 
   return (
     <main>
@@ -22,8 +15,7 @@ export default function HomePage() {
           <p>Email: {user.email}</p>
           <p>Id: {user.id}</p>
         </div>
-
-        <button onClick={handleLogout}>signout</button>
+        <New />
       </div>
     </main>
   );

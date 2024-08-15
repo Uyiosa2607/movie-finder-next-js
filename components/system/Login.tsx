@@ -69,7 +69,6 @@ export default function Login() {
           </div>
         </form>
       </div>
-      <button onClick={() => console.log(auth.currentUser)}>get stats</button>
     </main>
   );
 }

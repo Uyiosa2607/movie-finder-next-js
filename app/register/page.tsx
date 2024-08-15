@@ -75,7 +75,7 @@ export default function Register() {
             Create an Account
           </h3>
           <div className="w-[400px] flex gap-2 items-center mb-4 mx-auto">
-            <Avatar className="w-[40px] h-[40px]">
+            <Avatar className="w-[40px] object-cover h-[40px]">
               <AvatarImage src={avatar.url} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
