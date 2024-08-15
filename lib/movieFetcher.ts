@@ -1,8 +1,6 @@
 import axios from "axios";
 
 async function getMovies(category: string) {
-  const axios = require("axios");
-
   const options = {
     method: "GET",
     url: `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`,
@@ -14,17 +12,11 @@ async function getMovies(category: string) {
   };
 
   try {
-    axios
-      .request(options)
-      .then(function (response: any) {
-        console.log(response.data);
-      })
-      .catch(function (error: any) {
-        console.error(error);
-      });
+    const response = await axios.get(options.url, { headers: options.headers });
+    if (response.data) return response.data.results;
   } catch (error) {
     console.error("Error fetching movies:", error);
-    return [];
+    return null;
   }
 }
 

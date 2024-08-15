@@ -1,7 +1,7 @@
 import { currentUser } from "@/lib/userStore";
 import { useAtom } from "jotai";
 import Header from "./Header";
-import New from "../movie-categories/New";
+import Rated from "../movie-categories/Rated";
 
 export default function HomePage() {
   const [user, setUser] = useAtom(currentUser);
@@ -15,7 +15,7 @@ export default function HomePage() {
           <p>Email: {user.email}</p>
           <p>Id: {user.id}</p>
         </div>
-        <New />
+        <Rated />
       </div>
     </main>
   );
