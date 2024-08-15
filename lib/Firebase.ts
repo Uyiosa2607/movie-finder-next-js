@@ -4,7 +4,7 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB2IXpnmwitMLgiUYniOoDGSdTGdTYoOI0",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: "movie-app-a335b.firebaseapp.com",
   projectId: "movie-app-a335b",
   storageBucket: "movie-app-a335b.appspot.com",
