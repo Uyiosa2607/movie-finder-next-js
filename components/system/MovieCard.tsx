@@ -1,4 +1,4 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 
 export default function MovieCard(props: any) {
   const { url } = props;
@@ -7,11 +7,9 @@ export default function MovieCard(props: any) {
   const POSTER_SIZE = "w500";
 
   return (
-    <div>
-      <Image
-        width={500}
-        height={500}
-        className="object-cover w-[256px] h-[178px]"
+    <div className="w-auto h-[200px] md:w-[210px] lg:w-[210px] md:h-[140px]">
+      <img
+        className="object-cover md:object-fill w-full h-[100%] rounded-md"
         alt=""
         src={`${IMAGE_BASE_URL}${POSTER_SIZE}${url}`}
       />

@@ -1,5 +1,4 @@
 "use client";
-import { useState, useEffect } from "react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
@@ -13,18 +12,19 @@ import { useAtom } from "jotai";
 
 export default function Header() {
   const [user, setUser] = useAtom(currentUser);
+
   function handleLogout() {
     signOut(auth);
   }
   return (
-    <main className="p-4 z-100">
-      <div className="container">
+    <main className="p-4 z-100 bg-zinc-950 text-zinc-200 sticky top-0 left-0 w-full">
+      <div className="container mx-auto px-2">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="uppercase font-semibold">movie finder</h2>
           </div>
           <div className="flex items-center gap-5">
-            <div className="text-xl flex items-center gap-4">
+            <div className="text-2xl flex items-center gap-4">
               <CiSearch className="cursor-pointer" />
               <IoIosNotificationsOutline className="cursor-pointer" />
             </div>

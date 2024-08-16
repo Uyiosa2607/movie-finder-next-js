@@ -1,0 +1,86 @@
+import getMovies from "@/lib/movieFetcher";
+import { useState, useEffect } from "react";
+import MovieCard from "./MovieCard";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+interface Movie {
+  id: number;
+  title: string;
+  poster_path: string;
+  overview: string;
+  backdrop_path: string;
+}
+
+export default function MovieRow(props: any) {
+  const { category, rowTitle } = props;
+
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function setMovie() {
+      setLoading(true);
+      const data = await getMovies(category);
+      console.log(data);
+      if (data) {
+        setMovies(data);
+      }
+      setLoading(false);
+    }
+
+    setMovie();
+  }, []);
+
+  var settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 6,
+    slidesToScroll: 4,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 2,
+          infinite: true,
+          // dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+    ],
+  };
+
+  return (
+    <main className="my-[2rem] mb-3">
+      <div className="container mx-auto px-2">
+        <h1 className="text-xl font-medium capitalize mb-8">{rowTitle}</h1>
+        <div>
+          <Slider {...settings}>
+            {movies.map((movie) => (
+              <div key={movie.id}>
+                <MovieCard url={movie.poster_path} />
+              </div>
+            ))}
+          </Slider>
+        </div>
+      </div>
+    </main>
+  );
+}

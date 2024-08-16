@@ -1,22 +1,20 @@
 import { currentUser } from "@/lib/userStore";
 import { useAtom } from "jotai";
 import Header from "./Header";
-import Rated from "../movie-categories/Rated";
+import MovieRow from "./MovieRow";
 
 export default function HomePage() {
   const [user, setUser] = useAtom(currentUser);
 
   return (
-    <main>
+    <main className="text-slate-100">
       <Header />
-      <div className="container mx-auto">
-        <h1 className="text-center mt-[10rem]">This is Home page</h1>
-        <div className="w-500px mx-auto">
-          <p>Email: {user.email}</p>
-          <p>Id: {user.id}</p>
-        </div>
-        <Rated />
-      </div>
+
+      <MovieRow rowTitle="Comming soon" category="upcoming" />
+
+      <MovieRow rowTitle="top rated" category="top_rated" />
+
+      <MovieRow rowTitle="popular" category="popular" />
     </main>
   );
 }
