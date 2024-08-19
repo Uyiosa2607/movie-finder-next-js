@@ -21,4 +21,22 @@ async function getMovies(category: string) {
   }
 }
 
-export default getMovies;
+async function getMovieDetails(movieId: string) {
+  const options = {
+    method: "GET",
+    url: `https://api.themoviedb.org/3/movie/${movieId}`,
+    headers: {
+      accept: "application/json",
+      Authorization: token,
+    },
+  };
+
+  try {
+    const response = await axios.get(options.url, { headers: options.headers });
+    if (response.data) return response.data.results;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export { getMovies, getMovieDetails };

@@ -9,3 +9,5 @@ export const currentUser = atom({
 });
 
 export const isLoadingAtom = atom(true);
+
+export const toggleModal = atom(false);

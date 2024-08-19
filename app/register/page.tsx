@@ -10,7 +10,7 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import upload from "@/lib/imageUploader";
+import upload from "@/lib/Uploader";
 
 export default function Register() {
   const router = useRouter();

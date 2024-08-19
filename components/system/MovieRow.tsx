@@ -1,9 +1,11 @@
-import getMovies from "@/lib/movieFetcher";
+import { getMovies } from "@/lib/MovieFetcher";
 import { useState, useEffect } from "react";
 import MovieCard from "./MovieCard";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useAtom } from "jotai";
+import { toggleModal } from "@/lib/userStore";
 
 interface Movie {
   id: number;
@@ -19,6 +21,8 @@ export default function MovieRow(props: any) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const [toggle, setToggle] = useAtom(toggleModal);
+
   useEffect(() => {
     async function setMovie() {
       setLoading(true);
@@ -32,6 +36,10 @@ export default function MovieRow(props: any) {
 
     setMovie();
   }, []);
+
+  function handleModal() {
+    setToggle(!toggle);
+  }
 
   var settings = {
     infinite: true,
@@ -68,10 +76,10 @@ export default function MovieRow(props: any) {
   };
 
   return (
-    <main className="my-[2rem] mb-3">
+    <main className="my-[2rem] mb-3 bg-inherit">
       <div className="container mx-auto px-2">
         <h1 className="text-xl font-medium capitalize mb-8">{rowTitle}</h1>
-        <div>
+        <div onClick={handleModal}>
           <Slider {...settings}>
             {movies.map((movie) => (
               <div key={movie.id}>

@@ -68,5 +68,9 @@ export default function Home() {
 
   if (loading) return <Loading />;
 
-  return <>{user.auth ? <HomePage /> : <Login />}</>;
+  return (
+    <main className="h-screen w-screen">
+      {user.auth ? <HomePage /> : <Login />}
+    </main>
+  );
 }
