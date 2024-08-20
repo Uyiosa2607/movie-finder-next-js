@@ -1,11 +1,11 @@
-import { getMovies } from "@/lib/MovieFetcher";
 import { useState, useEffect } from "react";
+import { getMovieDetails, getMovies } from "@/lib/MovieFetcher";
 import MovieCard from "./MovieCard";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useAtom } from "jotai";
-import { toggleModal } from "@/lib/userStore";
+import { toggleModal, movieDetailsAtom } from "@/lib/userStore";
 
 interface Movie {
   id: number;
@@ -19,6 +19,7 @@ export default function MovieRow(props: any) {
   const { category, rowTitle } = props;
 
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [movieDetails, setMovieDetails] = useAtom(movieDetailsAtom);
   const [loading, setLoading] = useState(false);
 
   const [toggle, setToggle] = useAtom(toggleModal);
@@ -37,8 +38,16 @@ export default function MovieRow(props: any) {
     setMovie();
   }, []);
 
-  function handleModal() {
-    setToggle(!toggle);
+  async function handleModal(id: number) {
+    try {
+      const movieData = await getMovieDetails(id);
+      if (movieData) {
+        setMovieDetails(movieData);
+        setToggle(!toggle);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   var settings = {
@@ -54,7 +63,6 @@ export default function MovieRow(props: any) {
           slidesToShow: 3,
           slidesToScroll: 2,
           infinite: true,
-          // dots: true,
         },
       },
       {
@@ -79,10 +87,10 @@ export default function MovieRow(props: any) {
     <main className="my-[2rem] mb-3 bg-inherit">
       <div className="container mx-auto px-2">
         <h1 className="text-xl font-medium capitalize mb-8">{rowTitle}</h1>
-        <div onClick={handleModal}>
+        <div>
           <Slider {...settings}>
             {movies.map((movie) => (
-              <div key={movie.id}>
+              <div onClick={() => handleModal(movie.id)} key={movie.id}>
                 <MovieCard url={movie.poster_path} />
               </div>
             ))}

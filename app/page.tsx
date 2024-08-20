@@ -34,30 +34,30 @@ export default function Home() {
           } else {
             console.log("No such document!");
             setUser({
-              name: "",
               email: "",
               id: "",
               img: "",
               auth: false,
+              name: "",
             });
           }
         } catch (error) {
           console.error("Error fetching user data: ", error);
           setUser({
-            name: "",
             email: "",
             id: "",
             img: "",
             auth: false,
+            name: "",
           });
         }
       } else {
         setUser({
-          name: "",
           email: "",
           id: "",
           img: "",
           auth: false,
+          name: "",
         });
       }
       setLoading(false);

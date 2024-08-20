@@ -21,7 +21,7 @@ async function getMovies(category: string) {
   }
 }
 
-async function getMovieDetails(movieId: string) {
+async function getMovieDetails(movieId: number) {
   const options = {
     method: "GET",
     url: `https://api.themoviedb.org/3/movie/${movieId}`,
@@ -33,9 +33,10 @@ async function getMovieDetails(movieId: string) {
 
   try {
     const response = await axios.get(options.url, { headers: options.headers });
-    if (response.data) return response.data.results;
+    if (response.data) return response.data;
   } catch (error) {
     console.log(error);
+    return [];
   }
 }
 

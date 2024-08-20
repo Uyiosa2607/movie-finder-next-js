@@ -1,18 +1,12 @@
-import { currentUser, toggleModal } from "@/lib/userStore";
+import { toggleModal } from "@/lib/userStore";
 import { useAtom } from "jotai";
 import Header from "./Header";
 import MovieRow from "./MovieRow";
 import Hero from "./HeroSection";
 import Details from "./MovieDetails";
-import { useState } from "react";
 
 export default function HomePage() {
-  const [user, setUser] = useAtom(currentUser);
-  const [toggle, setToggle] = useAtom(toggleModal);
-
-  function handleModal() {
-    setToggle(!toggle);
-  }
+  const [toggle] = useAtom(toggleModal);
 
   return (
     <main
