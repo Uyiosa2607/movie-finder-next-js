@@ -32,6 +32,13 @@ const isLoadingAtom = atom(true);
 
 const toggleModal = atom(false);
 
-const movieDetailsAtom = atom<MovieDetails[]>([]);
+const movieDetailsAtom = atom({
+  title: "",
+  overview: "",
+  backdrop_path: "",
+  release_date: "",
+  runtime: 0,
+  original_language: "",
+});
 
 export { isLoadingAtom, toggleModal, movieDetailsAtom, currentUser };
