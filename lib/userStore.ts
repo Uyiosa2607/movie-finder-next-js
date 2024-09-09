@@ -8,15 +8,13 @@ type MovieDetails = {
   original_language: string;
 };
 
-type User = {
-  id: string;
-  email: string;
-  img: string;
-  auth: boolean;
-  name: string;
-};
-
-const currentUser = atom<User[]>([]);
+const currentUser = atom({
+  id: "",
+  email: "",
+  img: "",
+  auth: false,
+  name: "",
+});
 
 const isLoadingAtom = atom<boolean>(true);
 

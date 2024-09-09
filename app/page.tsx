@@ -31,7 +31,14 @@ export default function Home() {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          setUser({ ...docSnap.data(), auth: true });
+          const data = docSnap.data();
+          setUser({
+            name: data.name || "",
+            email: data.email || "",
+            id: data.id || user.uid,
+            img: data.img || "",
+            auth: true,
+          });
         } else {
           console.log("No such document!");
           setUser({ email: "", id: "", img: "", auth: false, name: "" });

@@ -68,18 +68,24 @@ export default function Register() {
   console.log(avatar.url);
 
   return (
-    <main className="bg-[url('/img/background.jpg')] bg-center w-screen h-screen pt-[4rem]">
-      <div className="w-[60vw] backdrop-blur-sm bg-white/30 mx-auto h-[80vh] rounded-lg">
-        <form onSubmit={handleRegister} className="pt-[8rem] text-[#333]">
-          <h3 className="text-center text-2xl font-medium mb-3">
+    <main className="bg-[url('/img/background.jpg')] bg-center w-screen h-screen pt-[1.5rem] md:pt-[4rem]">
+      <div className="w-[85vw] p-4 md:w-[60vw] backdrop-blur-sm bg-white/30 mx-auto h-[80vh] rounded-lg">
+        <form
+          onSubmit={handleRegister}
+          className="pt-[2rem] md:pt-[8rem] text-[#333]"
+        >
+          <h3 className="text-center text-xl font-semibold mb-4">
             Create an Account
           </h3>
-          <div className="w-[400px] flex gap-2 items-center mb-4 mx-auto">
-            <Avatar className="w-[40px] object-cover h-[40px]">
+          <div className="md:w-[400px] flex gap-2 items-center mb-4 mx-auto">
+            <Avatar className="md:w-[40px] object-cover h-[40px]">
               <AvatarImage src={avatar.url} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            <Label className="uppercase text-sm font-medium" htmlFor="avatar">
+            <Label
+              className="uppercase md:text-sm font-medium"
+              htmlFor="avatar"
+            >
               select profile picture
             </Label>
             <Input
@@ -90,7 +96,7 @@ export default function Register() {
               onChange={handleProfilePicture}
             />
           </div>
-          <div className="w-[400px] mb-2 mx-auto">
+          <div className="md:w-[400px] mb-2 mx-auto">
             <Label htmlFor="name">Full Name</Label>
             <Input
               placeholder="Name and Surname"
@@ -99,7 +105,7 @@ export default function Register() {
               id="name"
             />
           </div>
-          <div className="w-[400px] mb-2 mx-auto">
+          <div className="md:w-[400px] mb-2 mx-auto">
             <Label htmlFor="email">Email</Label>
             <Input
               placeholder="Enter Your Email"
@@ -108,7 +114,7 @@ export default function Register() {
               id="email"
             />
           </div>
-          <div className="w-[400px] mx-auto">
+          <div className="md:w-[400px] mx-auto">
             <Label htmlFor="password">Password</Label>
             <Input
               placeholder="Enter Your Password"
@@ -117,7 +123,7 @@ export default function Register() {
               id="password"
             />
           </div>
-          <div className="w-[400px] mx-auto pt-5">
+          <div className="md:w-[400px] mx-auto pt-5">
             <Button
               disabled={loading}
               type="submit"
