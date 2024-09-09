@@ -1,44 +1,27 @@
 import { atom } from "jotai";
 
-interface MovieDetails {
+type MovieDetails = {
   title: string;
-  id: string;
-  budget: number;
-  backdrop_path: string;
-  original_language: string;
   overview: string;
-  release_date: string;
+  backdrop_path: string;
   runtime: number;
-}
+  original_language: string;
+};
 
-// interface User {
-//   name: string;
-//   email: string;
-//   img: string;
-//   id: string;
-//   auth: boolean;
-//   title: string;
-// }
+type User = {
+  id: string;
+  email: string;
+  img: string;
+  auth: boolean;
+  name: string;
+};
 
-const currentUser = atom({
-  id: "",
-  email: "",
-  img: "",
-  auth: false,
-  name: "",
-});
+const currentUser = atom<User[]>([]);
 
-const isLoadingAtom = atom(true);
+const isLoadingAtom = atom<boolean>(true);
 
-const toggleModal = atom(false);
+const toggleModal = atom<boolean>(false);
 
-const movieDetailsAtom = atom({
-  title: "",
-  overview: "",
-  backdrop_path: "",
-  release_date: "",
-  runtime: 0,
-  original_language: "",
-});
+const movieDetailsAtom = atom<MovieDetails[]>([]);
 
 export { isLoadingAtom, toggleModal, movieDetailsAtom, currentUser };

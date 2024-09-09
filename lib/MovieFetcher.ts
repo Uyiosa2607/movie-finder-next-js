@@ -2,7 +2,15 @@ import axios from "axios";
 
 const token: any = process.env.NEXT_PUBLIC_MOVIE_AUTH_TOKEN;
 
-async function getMovies(category: string) {
+interface MovieDetails {
+  title: string;
+  overview: string;
+  backdrop_path: string;
+  runtime: number;
+  original_language: string;
+}
+
+async function getMovies(category: string): Promise<any> {
   const options = {
     method: "GET",
     url: `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`,
@@ -21,7 +29,7 @@ async function getMovies(category: string) {
   }
 }
 
-async function getMovieDetails(movieId: number) {
+async function getMovieDetails(movieId: number): Promise<any> {
   const options = {
     method: "GET",
     url: `https://api.themoviedb.org/3/movie/${movieId}`,
@@ -33,10 +41,13 @@ async function getMovieDetails(movieId: number) {
 
   try {
     const response = await axios.get(options.url, { headers: options.headers });
-    if (response.data) return response.data;
+    if (response.data) {
+      const data: MovieDetails = response.data;
+      return data;
+    }
   } catch (error) {
     console.log(error);
-    return [];
+    return <any>[];
   }
 }
 

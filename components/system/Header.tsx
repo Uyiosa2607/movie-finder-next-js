@@ -11,20 +11,20 @@ import { currentUser } from "@/lib/userStore";
 import { useAtom } from "jotai";
 
 export default function Header() {
-  const [user, setUser] = useAtom(currentUser);
+  const [user] = useAtom(currentUser);
 
   function handleLogout() {
     signOut(auth);
   }
   return (
-    <main className="p-4 z-[500] bg-zinc-950 text-zinc-200 sticky top-0 left-0 w-full">
-      <div className="container mx-auto px-2">
+    <main className="px-1 py-2 z-[500] bg-black text-zinc-200 sticky top-0 left-0 w-full">
+      <div className="md:container mx-auto">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="uppercase font-semibold">movie finder</h2>
           </div>
           <div className="flex items-center gap-5">
-            <div className="text-2xl flex items-center gap-4">
+            <div className="text-lg flex items-center gap-4">
               <CiSearch className="cursor-pointer" />
               <IoIosNotificationsOutline className="cursor-pointer" />
             </div>
@@ -32,7 +32,7 @@ export default function Header() {
               <PopoverTrigger>
                 <Avatar>
                   <AvatarImage
-                    className="object-cover cursor-pointer"
+                    className="object-cover w-[30px] h-[30px] md:h-[40px] md:w-[40px] cursor-pointer"
                     src={user.img}
                   />
                 </Avatar>

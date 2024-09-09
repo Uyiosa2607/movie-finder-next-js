@@ -9,22 +9,16 @@ export default function HomePage() {
   const [toggle] = useAtom(toggleModal);
 
   return (
-    <main
-      className={`"text-slate-100 bg-zinc-900 h-screen w-screen ${
-        toggle ? "overflow-hidden" : ""
-      }`}
-    >
-      {toggle ? <Details /> : null}
-
+    <main className="w-screen min-h-screen">
       <Header />
-
       <Hero />
+      <section className="px-2 mt-5">
+        <MovieRow title="Comming soon" category="upcoming" />
 
-      <MovieRow rowTitle="Comming soon" category="upcoming" />
+        <MovieRow title="top rated" category="top_rated" />
 
-      <MovieRow rowTitle="top rated" category="top_rated" />
-
-      <MovieRow rowTitle="popular" category="popular" />
+        <MovieRow title="popular" category="popular" />
+      </section>
     </main>
   );
 }

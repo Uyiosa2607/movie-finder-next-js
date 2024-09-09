@@ -18,48 +18,29 @@ export default function Home() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        try {
-          const docRef = doc(db, "users", user.uid);
-          const docSnap = await getDoc(docRef);
+      setLoading(true);
 
-          if (docSnap.exists()) {
-            setUser({
-              name: docSnap.data().name,
-              email: docSnap.data().email,
-              id: docSnap.data().id,
-              img: docSnap.data().img,
-              auth: true,
-            });
-          } else {
-            console.log("No such document!");
-            setUser({
-              email: "",
-              id: "",
-              img: "",
-              auth: false,
-              name: "",
-            });
-          }
-        } catch (error) {
-          console.error("Error fetching user data: ", error);
-          setUser({
-            email: "",
-            id: "",
-            img: "",
-            auth: false,
-            name: "",
-          });
-        }
-      } else {
-        setUser({
-          email: "",
-          id: "",
-          img: "",
-          auth: false,
-          name: "",
-        });
+      if (!user) {
+        setUser({ email: "", id: "", img: "", auth: false, name: "" });
+        setLoading(false);
+        return;
       }
+
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setUser({ ...docSnap.data(), auth: true });
+        } else {
+          console.log("No such document!");
+          setUser({ email: "", id: "", img: "", auth: false, name: "" });
+        }
+      } catch (error) {
+        console.error("Error fetching user data: ", error);
+        setUser({ email: "", id: "", img: "", auth: false, name: "" });
+      }
+
       setLoading(false);
     });
 
