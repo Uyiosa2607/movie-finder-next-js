@@ -1,13 +1,5 @@
 import { atom } from "jotai";
 
-type MovieDetails = {
-  title: string;
-  overview: string;
-  backdrop_path: string;
-  runtime: number;
-  original_language: string;
-};
-
 const currentUser = atom({
   id: "",
   email: "",
@@ -16,10 +8,17 @@ const currentUser = atom({
   name: "",
 });
 
+const movieDetailsAtom = atom({
+  title: "",
+  overview: "",
+  backdrop_path: "",
+  release_date: "",
+  runtime: 0,
+  original_language: "",
+});
+
 const isLoadingAtom = atom<boolean>(true);
 
 const toggleModal = atom<boolean>(false);
-
-const movieDetailsAtom = atom<MovieDetails[]>([]);
 
 export { isLoadingAtom, toggleModal, movieDetailsAtom, currentUser };

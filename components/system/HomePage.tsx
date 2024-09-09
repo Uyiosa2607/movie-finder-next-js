@@ -3,7 +3,6 @@ import { useAtom } from "jotai";
 import Header from "./Header";
 import MovieRow from "./MovieRow";
 import Hero from "./HeroSection";
-import Details from "./MovieDetails";
 
 export default function HomePage() {
   const [toggle] = useAtom(toggleModal);
