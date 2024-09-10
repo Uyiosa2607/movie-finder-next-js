@@ -15,6 +15,8 @@ const movieDetailsAtom = atom({
   release_date: "",
   runtime: 0,
   original_language: "",
+  genres: [],
+  vote_average: "",
 });
 
 const isLoadingAtom = atom<boolean>(true);

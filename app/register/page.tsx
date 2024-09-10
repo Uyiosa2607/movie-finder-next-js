@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { auth, db } from "@/lib/Firebase";
@@ -33,6 +34,8 @@ export default function Register() {
   //Function to handle users Registration
   async function handleRegister(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (avatar.file === null) return alert("Please select image");
 
     const formdata = new FormData(event.currentTarget);
     const name: any = formdata.get("name");
@@ -134,6 +137,11 @@ export default function Register() {
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : null}
             </Button>
+            <Link href="/">
+              <p className="text-sm  underline mt-2">
+                Already have an Account?
+              </p>
+            </Link>
           </div>
         </form>
       </div>

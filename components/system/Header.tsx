@@ -30,11 +30,8 @@ export default function Header() {
             </div>
             <Popover>
               <PopoverTrigger>
-                <Avatar>
-                  <AvatarImage
-                    className="object-cover w-[30px] h-[30px] md:h-[40px] md:w-[40px] cursor-pointer"
-                    src={user.img}
-                  />
+                <Avatar className="object-cover w-[30px] h-[30px] md:h-[40px] md:w-[40px]">
+                  <AvatarImage className="cursor-pointer" src={user.img} />
                 </Avatar>
               </PopoverTrigger>
               <PopoverContent>

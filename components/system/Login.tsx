@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { auth } from "@/lib/Firebase";
@@ -66,6 +67,11 @@ export default function Login() {
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : null}
             </Button>
+            <Link href="/register">
+              <p className="text-sm underline mt-2">
+                Don&apos;t have an account?
+              </p>
+            </Link>
           </div>
         </form>
       </div>
