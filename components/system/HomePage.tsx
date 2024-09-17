@@ -1,12 +1,8 @@
-import { toggleModal } from "@/lib/userStore";
-import { useAtom } from "jotai";
 import Header from "./Header";
 import MovieRow from "./MovieRow";
 import Hero from "./HeroSection";
 
 export default function HomePage() {
-  const [toggle] = useAtom(toggleModal);
-
   return (
     <main className="w-screen min-h-screen">
       <Header />

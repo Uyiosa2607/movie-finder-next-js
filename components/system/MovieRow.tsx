@@ -1,9 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
 import { getMovieDetails, getMovies } from "@/lib/MovieFetcher";
-import { useAtom } from "jotai";
-import { toggleModal, movieDetailsAtom } from "@/lib/userStore";
-import { ChevronRight, X } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 interface Movie {
@@ -24,10 +22,7 @@ type MovieRowProps = {
 
 export default function MovieRow({ category, title }: MovieRowProps) {
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [movieDetails, setMovieDetails] = useAtom(movieDetailsAtom);
   const [loading, setLoading] = useState<boolean>(false);
-  const [detailLoading, setDetailsLoading] = useState(false);
-  const [toggle, setToggle] = useAtom(toggleModal);
 
   useEffect(() => {
     async function setMovie() {
@@ -41,21 +36,6 @@ export default function MovieRow({ category, title }: MovieRowProps) {
 
     setMovie();
   }, [category]);
-
-  async function handleModal(id: number) {
-    setDetailsLoading(true);
-    try {
-      const movieData = await getMovieDetails(id);
-      if (movieData) {
-        setMovieDetails(movieData);
-        setToggle(true);
-        setDetailsLoading(false);
-      }
-    } catch (error) {
-      console.error(error);
-      setDetailsLoading(false);
-    }
-  }
 
   const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
   const POSTER_SIZE = "w500";
