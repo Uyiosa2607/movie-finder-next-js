@@ -4,7 +4,7 @@ import { getMovieDetails, getMovies } from "@/lib/MovieFetcher";
 import { useAtom } from "jotai";
 import { toggleModal, movieDetailsAtom } from "@/lib/userStore";
 import { ChevronRight, X } from "lucide-react";
-import Modal from "./Modal";
+import Link from "next/link";
 
 interface Movie {
   id: number;
@@ -70,29 +70,20 @@ export default function MovieRow({ category, title }: MovieRowProps) {
         <div className="flex overflow-x-scroll pb-4 px-2 hide-scrollbar">
           {movies.map((movie) => (
             <div key={movie.id} className="flex-none mr-4 w-28 sm:w-56">
-              <div
-                onClick={() => handleModal(movie.id)}
-                className="aspect-[2/3] overflow-hidden rounded-md cursor-pointer"
-              >
-                <img
-                  src={`${IMAGE_BASE_URL}${POSTER_SIZE}${movie.backdrop_path}`}
-                  alt={movie.title}
-                  className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
-                />
-              </div>
+              <Link href={`/movie/${movie.id}`}>
+                <div className="aspect-[2/3] overflow-hidden rounded-md cursor-pointer">
+                  <img
+                    src={`${IMAGE_BASE_URL}${POSTER_SIZE}${movie.backdrop_path}`}
+                    alt={movie.title}
+                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
+                  />
+                </div>
+              </Link>
             </div>
           ))}
         </div>
-        <div className="absolute right-0 top-0 bottom-8 w-24 bg-gradient-to-l from-black to-transparent pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-8 h-[90%] w-24 bg-gradient-to-l from-black to-transparent pointer-events-none" />
       </div>
-      {toggle && movieDetails && (
-        <Modal movie={movieDetails} onClose={() => setToggle(false)} />
-      )}
-      {(loading || detailLoading) && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
-        </div>
-      )}
     </div>
   );
 }

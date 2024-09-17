@@ -19,6 +19,7 @@
     "axios": "^1.7.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cmdk": "^1.0.0",
     "embla-carousel-react": "^8.1.8",
     "firebase": "^10.12.5",
     "jotai": "https://pkg.csb.dev/pmndrs/jotai/commit/442f5bb5/jotai",

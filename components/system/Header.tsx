@@ -1,31 +1,128 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
+import { useState } from "react";
+import { useAtom } from "jotai";
+import { currentUser } from "@/lib/userStore";
+import axios from "axios";
+import { auth } from "@/lib/Firebase";
+import { signOut } from "firebase/auth";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
-import { signOut } from "firebase/auth";
-import { auth } from "@/lib/Firebase";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { CiLogout } from "react-icons/ci";
 import { GoGear } from "react-icons/go";
-import { currentUser } from "@/lib/userStore";
-import { useAtom } from "jotai";
+import { Command, CommandGroup, CommandItem } from "../ui/command";
+import { CommandEmpty, CommandInput, CommandList } from "cmdk";
+import { Search } from "lucide-react";
+import Link from "next/link";
+
+interface Movies {
+  id: number;
+  title: string;
+  poster_path: string;
+  overview: string;
+  backdrop_path: string;
+  release_date: string;
+  vote_average: number;
+  genres: { id: number; name: string }[];
+}
+
+const token: any = process.env.NEXT_PUBLIC_MOVIE_AUTH_TOKEN;
 
 export default function Header() {
   const [user] = useAtom(currentUser);
+  const [searchedMovies, setSearchedMovies] = useState<Movies[]>([]);
+  const [query, setQuery] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   function handleLogout() {
     signOut(auth);
   }
+
+  async function findMovies() {
+    const options = {
+      method: "GET",
+      url: "https://api.themoviedb.org/3/search/movie",
+      params: {
+        query,
+        include_adult: "true",
+        language: "en-US",
+        page: "1",
+      },
+      headers: {
+        accept: "application/json",
+        Authorization: token,
+      },
+    };
+
+    axios
+      .request(options)
+      .then(function (response) {
+        setSearchedMovies(response.data.results);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
+  async function handleInput(value: string) {
+    if (value.length >= 3) {
+      setQuery(value);
+      await findMovies();
+    }
+  }
+
   return (
     <main className="px-1 py-2 z-[500] bg-black text-zinc-200 sticky top-0 left-0 w-full">
       <div className="md:container mx-auto">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="uppercase font-semibold">movie finder</h2>
+            <h2 className="uppercase font-semibold">Movie Finder</h2>
           </div>
           <div className="flex items-center gap-5">
             <div className="text-lg flex items-center gap-4">
-              <CiSearch className="cursor-pointer" />
+              <Popover>
+                <PopoverTrigger>
+                  <CiSearch className="cursor-pointer" />
+                </PopoverTrigger>
+                <PopoverContent
+                  className="w-full md:w-[500px] mx-auto"
+                  align="start"
+                >
+                  <Command className="w-full p-2">
+                    <div className="flex items-center gap-1">
+                      <Search className="text-xs text-muted-foreground" />
+                      <CommandInput
+                        className="text-base"
+                        onValueChange={(value) => handleInput(value)}
+                        placeholder="Search Movies"
+                      />
+                    </div>
+                    <CommandList>
+                      <CommandEmpty>No movies found</CommandEmpty>
+                      <CommandGroup>
+                        {searchedMovies.map((movie) => (
+                          <CommandItem key={movie.id} value={movie.title}>
+                            <Link href={`/movie/${movie.id}`}>
+                              <div className="flex items-center gap-2">
+                                <img
+                                  src={`https://image.tmdb.org/t/p/w92/${movie.poster_path}`}
+                                  alt={movie.title}
+                                  className="w-8 h-12"
+                                />
+                                <span>
+                                  {movie.title} ({movie.release_date})
+                                </span>
+                              </div>
+                            </Link>
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
               <IoIosNotificationsOutline className="cursor-pointer" />
             </div>
             <Popover>
