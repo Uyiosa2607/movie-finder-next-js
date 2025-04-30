@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 export default function Register() {
   const router = useRouter();
@@ -74,11 +75,11 @@ export default function Register() {
       });
 
       setLoading(false);
-      console.log(response, savedData);
       toast({
         title: "Registration Succesfull",
         description: "You can login now with your credentials",
       });
+      router.push("/login");
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -140,12 +141,17 @@ export default function Register() {
                 required
               />
             </div>
+            <div className="mb-4 flex flex-col gap-1">
+              <Label>Pick profile picture</Label>
+              <Input onChange={handleProfilePicture} type="file" required />
+            </div>
             <Button
               disabled={loading}
               type="submit"
               className="w-full bg-red-600 hover:bg-red-700 text-white !rounded-button whitespace-nowrap cursor-pointer"
             >
-              Create Account
+              Create Account{" "}
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
             </Button>
             <div className="relative my-2">
               <div className="absolute inset-0 flex items-center">

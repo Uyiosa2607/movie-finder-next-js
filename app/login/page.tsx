@@ -1,5 +1,7 @@
 "use client";
-import { FormEvent } from "react";
+import { useState, FormEvent } from "react";
+import { useRouter } from "next/navigation";
+
 import {
   Card,
   CardContent,
@@ -13,13 +15,29 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/Firebase";
+import { Loader2 } from "lucide-react";
 
 export default function Login() {
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const router = useRouter();
+
   async function handleLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const email = formData.get("email");
-    const password = formData.get("password");
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    try {
+      setLoading(true);
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   }
 
   return (
@@ -60,9 +78,11 @@ export default function Login() {
 
             <Button
               type="submit"
+              disabled={loading}
               className="w-full bg-red-600 hover:bg-red-700 text-white !rounded-button whitespace-nowrap cursor-pointer"
             >
-              Sign in
+              Sign in{" "}
+              {loading ? <Loader2 className="w-4 h-4  animate-spin" /> : null}
             </Button>
             <div className="relative my-2">
               <div className="absolute inset-0 flex items-center">
