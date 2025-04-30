@@ -9,9 +9,11 @@ import { FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import upload from "@/lib/Uploader";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Register() {
   const router = useRouter();
@@ -20,6 +22,8 @@ export default function Register() {
     file: null,
     url: "",
   });
+
+  const { toast } = useToast();
 
   // Function to handle Profile picture selection
   function handleProfilePicture(event: any) {
@@ -61,7 +65,10 @@ export default function Register() {
 
       setLoading(false);
       console.log(response, savedData);
-      router.push("/");
+      toast({
+        title: "Registration Succesfull",
+        description: "You can login now with your credentials",
+      });
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -145,6 +152,7 @@ export default function Register() {
           </div>
         </form>
       </div>
+      <Toaster />
     </main>
   );
 }

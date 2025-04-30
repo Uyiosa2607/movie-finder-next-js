@@ -74,7 +74,7 @@ export default function Header() {
   }
 
   return (
-    <main className="px-1 py-2 z-[500] bg-black text-zinc-200 sticky top-0 left-0 w-full">
+    <main className="px-1 py-2 z-[500] fixed  bg-stone-50 top-0 left-0 w-full">
       <div className="md:container mx-auto">
         <div className="flex items-center justify-between">
           <div>

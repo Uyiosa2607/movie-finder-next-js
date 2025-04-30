@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-import { PlayIcon, InfoIcon, ChevronRightIcon } from "lucide-react";
+import { PlayIcon, InfoIcon } from "lucide-react";
 import { Button } from "../ui/button";
 
 export default function Hero() {
   return (
-    <section className="relative h-screen">
+    <section className="relative h-[400px] lg:h-[600px]">
       <img
-        src="https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg"
+        src="https://image.tmdb.org/t/p/w1920/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg"
         alt="Featured Movie"
         className="h-full w-full object-cover"
       />
@@ -20,13 +20,13 @@ export default function Hero() {
           viewer&apos;s attention and entices them to watch.
         </p>
         <div className="flex space-x-4">
-          <Button className="flex items-center space-x-2">
-            <PlayIcon className="h-5 w-5" />
-            <span>Play</span>
-          </Button>
+          <div className="flex rounded-lg gap-1 bg-red-600 px-3 py-1.5 flex-row items-center">
+            <PlayIcon fill="white" color="white" className="h-5 w-5" />
+            <span className="text-white font-[600]">Play</span>
+          </div>
           <Button variant="outline" className="flex items-center space-x-2">
             <InfoIcon className="h-5 w-5" />
-            <span>More Info</span>
+            <span className="font-[600]">More Info</span>
           </Button>
         </div>
       </div>
