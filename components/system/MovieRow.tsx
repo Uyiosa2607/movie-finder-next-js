@@ -46,8 +46,8 @@ export default function MovieRow({ category, title }: MovieRowProps) {
 
   return (
     <div className="mb-2">
-      <div className="flex items-center mb-2 pl-2">
-        <h2 className="capitalize text-xl font-semibold">{title}</h2>
+      <div className="flex items-center mb-1 pl-2">
+        <p className="capitalize text-neutral-800 font-bold text-lg">{title}</p>
         <ChevronRight size={18} />
       </div>
       <div className="relative">

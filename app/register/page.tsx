@@ -6,14 +6,21 @@ import { auth, db } from "@/lib/Firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { FormEvent } from "react";
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+
 import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useRouter } from "next/navigation";
 import upload from "@/lib/Uploader";
-import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/hooks/use-toast";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
 export default function Register() {
   const router = useRouter();
@@ -45,6 +52,9 @@ export default function Register() {
     const name: any = formdata.get("name");
     const email: any = formdata.get("email");
     const password: any = formdata.get("password");
+    const confirmPassword: any = formdata.get("confirm_password");
+
+    if (password !== confirmPassword) return alert("passwords do not match");
 
     try {
       setLoading(true);
@@ -75,84 +85,97 @@ export default function Register() {
     }
   }
 
-  console.log(avatar.url);
-
   return (
-    <main className="bg-[url('/img/background.jpg')] bg-center w-screen h-screen pt-[1.5rem] md:pt-[4rem]">
-      <div className="w-[85vw] p-4 md:w-[60vw] backdrop-blur-sm bg-white/30 mx-auto h-[80vh] rounded-lg">
-        <form
-          onSubmit={handleRegister}
-          className="pt-[2rem] md:pt-[8rem] text-[#333]"
-        >
-          <h3 className="text-center text-xl font-semibold mb-4">
-            Create an Account
-          </h3>
-          <div className="md:w-[400px] flex gap-2 items-center mb-4 mx-auto">
-            <Avatar className="md:w-[40px] object-cover h-[40px]">
-              <AvatarImage src={avatar.url} />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <Label
-              className="uppercase md:text-sm font-medium"
-              htmlFor="avatar"
-            >
-              select profile picture
-            </Label>
-            <Input
-              style={{ display: "none" }}
-              type="file"
-              name="avatar"
-              id="avatar"
-              onChange={handleProfilePicture}
-            />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 p-4">
+      <Card className="bg-white p-2  shadow-lg">
+        <CardHeader className="space-y-2 text-center">
+          <div className="mx-auto mb-4">
+            <i className="fas fa-film text-4xl text-red-500"></i>
+            <h2 className="text-2xl font-bold text-gray-900">MovieFinder</h2>
           </div>
-          <div className="md:w-[400px] mb-2 mx-auto">
-            <Label htmlFor="name">Full Name</Label>
-            <Input
-              placeholder="Name and Surname"
-              type="text"
-              name="name"
-              id="name"
-            />
-          </div>
-          <div className="md:w-[400px] mb-2 mx-auto">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              placeholder="Enter Your Email"
-              type="email"
-              name="email"
-              id="email"
-            />
-          </div>
-          <div className="md:w-[400px] mx-auto">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              placeholder="Enter Your Password"
-              type="password"
-              name="password"
-              id="password"
-            />
-          </div>
-          <div className="md:w-[400px] mx-auto pt-5">
+          <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
+          <CardDescription>
+            Join us to discover and track your favorite movies
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleRegister}>
+            <div className="mb-4 flex flex-col gap-1">
+              <Label className="font-[600px]">Full Name</Label>
+              <Input
+                name="name"
+                className="w-full"
+                required
+                size={16}
+                type="text"
+              />
+            </div>
+            <div className="mb-4 flex flex-col gap-1">
+              <Label className="font-[600px]">Email</Label>
+              <Input
+                name="email"
+                className="w-full"
+                required
+                size={16}
+                type="email"
+              />
+            </div>
+            <div className="mb-4 flex flex-col gap-1">
+              <Label className="font-[600px]">Password</Label>
+              <Input
+                name="password"
+                className="w-full"
+                size={16}
+                type="password"
+                required
+              />
+            </div>
+            <div className="mb-4 flex flex-col gap-1">
+              <Label className="font-[600px]">Confirm password</Label>
+              <Input
+                name="confirm_password"
+                className="w-full"
+                size={16}
+                type="password"
+                required
+              />
+            </div>
             <Button
               disabled={loading}
               type="submit"
-              className="w-full bg-green-700 text-center"
+              className="w-full bg-red-600 hover:bg-red-700 text-white !rounded-button whitespace-nowrap cursor-pointer"
             >
-              Register{" "}
-              {loading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : null}
+              Create Account
             </Button>
-            <Link href="/">
-              <p className="text-sm  underline mt-2">
-                Already have an Account?
-              </p>
+            <div className="relative my-2">
+              <div className="absolute inset-0 flex items-center">
+                <Separator className="w-full" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-white px-2 text-gray-500">or</span>
+              </div>
+            </div>
+            <Button
+              variant="outline"
+              className="w-full !rounded-button whitespace-nowrap cursor-pointer"
+            >
+              <i className="fab fa-google mr-2 text-red-500"></i> Continue with
+              Google
+            </Button>
+          </form>
+        </CardContent>
+        <CardFooter className="flex justify-center">
+          <p className="text-sm text-gray-600">
+            Already have an account?
+            <Link
+              href="/login"
+              className="font-medium pl-1 text-red-600 hover:text-red-500 cursor-pointer"
+            >
+              Login
             </Link>
-          </div>
-        </form>
-      </div>
-      <Toaster />
-    </main>
+          </p>
+        </CardFooter>
+      </Card>
+    </div>
   );
 }
