@@ -7,8 +7,6 @@ import axios from "axios";
 import { auth } from "@/lib/Firebase";
 import { signOut } from "firebase/auth";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { IoIosNotificationsOutline } from "react-icons/io";
-import { CiSearch } from "react-icons/ci";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { CiLogout } from "react-icons/ci";
 import { GoGear } from "react-icons/go";
@@ -74,27 +72,27 @@ export default function Header() {
   }
 
   return (
-    <main className="px-1 py-2 z-[500] fixed  bg-stone-50 top-0 left-0 w-full">
+    <main className="px-2 py-2.5 z-[500] fixed  bg-stone-50 top-0 left-0 w-full">
       <div className="md:container mx-auto">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="uppercase font-semibold">Movie Finder</h2>
+            <h2 className="uppercase font-[800]">Movie Finder</h2>
           </div>
           <div className="flex items-center gap-5">
             <div className="text-lg flex items-center gap-4">
               <Popover>
                 <PopoverTrigger>
-                  <CiSearch className="cursor-pointer" />
+                  <Search size={17} className="cursor-pointer" />
                 </PopoverTrigger>
                 <PopoverContent
                   className="w-full md:w-[500px] mx-auto"
                   align="start"
                 >
-                  <Command className="w-full p-2">
-                    <div className="flex items-center gap-1">
+                  <Command className="w-[300px] md:w-full p-2">
+                    <div className="flex w-full items-center gap-1">
                       <Search className="text-xs text-muted-foreground" />
                       <CommandInput
-                        className="text-base"
+                        className="text-base w-full"
                         onValueChange={(value) => handleInput(value)}
                         placeholder="Search Movies"
                       />
@@ -123,11 +121,10 @@ export default function Header() {
                   </Command>
                 </PopoverContent>
               </Popover>
-              <IoIosNotificationsOutline className="cursor-pointer" />
             </div>
             <Popover>
               <PopoverTrigger>
-                <Avatar className="object-cover w-[30px] h-[30px] md:h-[40px] md:w-[40px]">
+                <Avatar className="object-cover w-[25px] h-[25px] md:h-[40px] md:w-[40px]">
                   <AvatarImage className="cursor-pointer" src={user.img} />
                 </Avatar>
               </PopoverTrigger>

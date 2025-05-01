@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import HomePage from "@/components/system/HomePage";
-import Loading from "@/components/system/Loading";
 import { auth } from "@/lib/Firebase";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
@@ -55,8 +54,6 @@ export default function Home() {
 
     return () => unsubscribe();
   }, [setUser, setLoading]);
-
-  if (loading) return <Loading />;
 
   return (
     <main className="h-screen w-screen">
