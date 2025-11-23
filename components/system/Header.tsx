@@ -77,57 +77,59 @@ export default function Header() {
   }
 
   return (
-    <main className="px-4 py-4 z-[500] fixed top-0 left-0 w-full bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 backdrop-blur-xl border-b border-slate-800/50 shadow-2xl shadow-purple-900/10">
-      <div className="md:container mx-auto">
-        <div className="flex items-center justify-between">
+    <main className="px-3 md:px-4 py-3 md:py-4 z-[500] fixed top-0 left-0 right-0 w-full bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 backdrop-blur-xl border-b border-slate-800/50 shadow-2xl shadow-purple-900/10">
+      <div className="w-full max-w-[1800px] mx-auto">
+        <div className="flex items-center justify-between gap-2">
           {/* Logo */}
           <Link
             href="/"
-            className="group flex items-center gap-3 transition-transform hover:scale-105"
+            className="group flex items-center gap-2 md:gap-3 transition-transform hover:scale-105 flex-shrink-0"
           >
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur-md opacity-50 group-hover:opacity-75 transition-opacity"></div>
-              <div className="relative bg-gradient-to-br from-purple-600 to-pink-600 p-2 rounded-lg">
-                <Film className="w-5 h-5 text-white" />
+              <div className="relative bg-gradient-to-br from-purple-600 to-pink-600 p-1.5 md:p-2 rounded-lg">
+                <Film className="w-4 h-4 md:w-5 md:h-5 text-white" />
               </div>
             </div>
-            <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+            <h2 className="text-base sm:text-lg md:text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent whitespace-nowrap">
               MOVIE FINDER
             </h2>
           </Link>
 
           {/* Right Section */}
-          <div className="flex items-center gap-3 md:gap-4">
+          <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
             {/* Search */}
             <Popover open={isSearchOpen} onOpenChange={setIsSearchOpen}>
               <PopoverTrigger asChild>
-                <button className="relative group p-2.5 rounded-xl bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 hover:border-purple-500/50 transition-all duration-300">
+                <button className="relative group p-2 md:p-2.5 rounded-xl bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 hover:border-purple-500/50 transition-all duration-300">
                   <Search
-                    size={18}
-                    className="text-slate-300 group-hover:text-purple-400 transition-colors"
+                    size={16}
+                    className="md:w-[18px] md:h-[18px] text-slate-300 group-hover:text-purple-400 transition-colors"
                   />
                   <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-600/0 to-pink-600/0 group-hover:from-purple-600/10 group-hover:to-pink-600/10 transition-all duration-300"></div>
                 </button>
               </PopoverTrigger>
               <PopoverContent
-                className="w-[340px] md:w-[500px] p-0 bg-slate-900/95 backdrop-blur-xl border border-slate-700/50 shadow-2xl shadow-purple-900/20"
+                className="w-[calc(100vw-2rem)] sm:w-[380px] md:w-[500px] p-0 bg-slate-900/95 backdrop-blur-xl border border-slate-700/50 shadow-2xl shadow-purple-900/20"
                 align="end"
+                side="bottom"
+                sideOffset={8}
               >
                 <Command className="bg-transparent border-0">
-                  <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-700/50">
-                    <Search className="w-4 h-4 text-slate-400" />
+                  <div className="flex items-center gap-2 px-3 md:px-4 py-3 border-b border-slate-700/50">
+                    <Search className="w-4 h-4 text-slate-400 flex-shrink-0" />
                     <CommandInput
-                      className="text-base bg-transparent border-0 text-slate-100 placeholder:text-slate-500"
+                      className="text-sm md:text-base bg-transparent border-0 text-slate-100 placeholder:text-slate-500"
                       onValueChange={handleInput}
                       placeholder="Search for movies..."
                       value={query}
                     />
                     {loading && (
-                      <div className="w-4 h-4 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+                      <div className="w-4 h-4 border-2 border-purple-500 border-t-transparent rounded-full animate-spin flex-shrink-0"></div>
                     )}
                   </div>
-                  <CommandList className="max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
-                    <CommandEmpty className="py-8 text-center text-slate-500">
+                  <CommandList className="max-h-[60vh] md:max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+                    <CommandEmpty className="py-8 text-center text-slate-500 text-sm">
                       {query.length < 3
                         ? "Type at least 3 characters"
                         : "No movies found"}
@@ -137,14 +139,14 @@ export default function Header() {
                         <CommandItem
                           key={movie.id}
                           value={movie.title}
-                          className="px-4 py-3 cursor-pointer hover:bg-slate-800/50 transition-colors"
+                          className="px-3 md:px-4 py-2.5 md:py-3 cursor-pointer hover:bg-slate-800/50 transition-colors"
                           onSelect={() => setIsSearchOpen(false)}
                         >
                           <Link
                             href={`/movie/${movie.id}`}
-                            className="flex items-center gap-3 w-full"
+                            className="flex items-center gap-2 md:gap-3 w-full"
                           >
-                            <div className="relative flex-shrink-0 w-12 h-16 rounded-md overflow-hidden bg-slate-800 border border-slate-700/50">
+                            <div className="relative flex-shrink-0 w-10 h-14 md:w-12 md:h-16 rounded-md overflow-hidden bg-slate-800 border border-slate-700/50">
                               {movie.poster_path ? (
                                 <img
                                   src={`https://image.tmdb.org/t/p/w92/${movie.poster_path}`}
@@ -153,26 +155,28 @@ export default function Header() {
                                 />
                               ) : (
                                 <div className="w-full h-full flex items-center justify-center">
-                                  <Film className="w-6 h-6 text-slate-600" />
+                                  <Film className="w-5 h-5 md:w-6 md:h-6 text-slate-600" />
                                 </div>
                               )}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium text-slate-100 truncate">
+                              <p className="text-xs md:text-sm font-medium text-slate-100 truncate">
                                 {movie.title}
                               </p>
-                              <div className="flex items-center gap-2 mt-1">
-                                <span className="text-xs text-slate-500">
+                              <div className="flex items-center gap-1.5 md:gap-2 mt-1">
+                                <span className="text-[10px] md:text-xs text-slate-500">
                                   {movie.release_date
                                     ? new Date(movie.release_date).getFullYear()
                                     : "N/A"}
                                 </span>
                                 {movie.vote_average > 0 && (
                                   <>
-                                    <span className="text-slate-600">•</span>
-                                    <div className="flex items-center gap-1">
-                                      <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
-                                      <span className="text-xs text-slate-400">
+                                    <span className="text-slate-600 text-xs">
+                                      •
+                                    </span>
+                                    <div className="flex items-center gap-0.5 md:gap-1">
+                                      <Star className="w-2.5 h-2.5 md:w-3 md:h-3 fill-yellow-500 text-yellow-500" />
+                                      <span className="text-[10px] md:text-xs text-slate-400">
                                         {movie.vote_average.toFixed(1)}
                                       </span>
                                     </div>
@@ -192,9 +196,9 @@ export default function Header() {
             {/* User Avatar */}
             <Popover>
               <PopoverTrigger asChild>
-                <button className="relative group">
+                <button className="relative group flex-shrink-0">
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full blur-md opacity-0 group-hover:opacity-50 transition-opacity"></div>
-                  <Avatar className="relative w-9 h-9 md:w-10 md:h-10 ring-2 ring-slate-700/50 group-hover:ring-purple-500/50 transition-all duration-300">
+                  <Avatar className="relative w-8 h-8 md:w-10 md:h-10 ring-2 ring-slate-700/50 group-hover:ring-purple-500/50 transition-all duration-300">
                     <AvatarImage src={user.img} className="object-cover" />
                   </Avatar>
                 </button>
@@ -202,11 +206,13 @@ export default function Header() {
               <PopoverContent
                 className="w-56 p-2 bg-slate-900/95 backdrop-blur-xl border border-slate-700/50 shadow-2xl shadow-purple-900/20"
                 align="end"
+                side="bottom"
+                sideOffset={8}
               >
                 <div className="flex flex-col gap-1">
                   {/* User Info */}
                   <div className="px-3 py-2 mb-2 border-b border-slate-700/50">
-                    <p className="text-sm font-medium text-slate-200">
+                    <p className="text-sm font-medium text-slate-200 truncate">
                       {user.name || "User"}
                     </p>
                     <p className="text-xs text-slate-500 truncate">
